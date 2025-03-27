@@ -1,0 +1,40 @@
+const express = require("express");
+const app = express();
+const cors = require("cors"); //for connect with frontend
+
+const mongoose = require("mongoose");
+
+const port = process.env.PORT || 5002;
+require("dotenv").config();
+
+//middleware
+//important for post data.
+app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://travel-app-frontend-nine.vercel.app"],
+    credentials: true
+  })
+);
+
+// routes
+const travelRoutes = require("./src/travels/travel.route");
+app.use("/api/travels", travelRoutes);
+
+const userRoutes = require("./src/users/user.route")
+app.use("/api/auth", userRoutes);
+
+async function main() {
+  await mongoose.connect(process.env.DB_URL);
+  app.use("/", (req, res) => {
+    res.send("Travel server is running");
+  });
+}
+
+main()
+  .then(() => console.log("Mongodb connected successfully"))
+  .catch((err) => console.log(err));
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
