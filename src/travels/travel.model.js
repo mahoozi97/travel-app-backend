@@ -15,6 +15,10 @@ const travelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    category: {
+      type: String,
+      required: true,
+    },
     dates: {
       type: String,
       required: true,
