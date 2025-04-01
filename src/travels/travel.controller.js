@@ -15,7 +15,7 @@ const postATravel = async (req, res) => {
 
 const getAllTravels = async (req, res) => {
   try {
-    const travels = await Travel.find().sort({ updatedAt: -1 });
+    const travels = await Travel.find().sort({ createdAt: -1 });
     res.status(200).send(travels);
   } catch (error) {
     console.error("Error fetching travels", error);
