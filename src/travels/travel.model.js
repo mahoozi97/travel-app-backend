@@ -23,6 +23,10 @@ const travelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    expireDate: {
+      type: String,
+      required: true,
+    },
     instagram: {
       type: String,
       required: true,
