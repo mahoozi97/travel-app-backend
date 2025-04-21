@@ -12,7 +12,7 @@ require("dotenv").config();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://travel-app-frontend-nine.vercel.app", "https://www.p2trip.com", "https://p2trip.com", "https://travel-app-frontend-production.up.railway.app"],
+    origin: ["http://localhost:5173", "https://www.p2trip.com", "https://p2trip.com", "https://travel-app-frontend-production.up.railway.app"],
     credentials: true
   })
 );
