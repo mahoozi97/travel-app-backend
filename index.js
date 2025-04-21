@@ -7,6 +7,14 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 5002;
 require("dotenv").config();
 
+// Force HTTPS (only in production)
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(`https://${req.headers.host}${req.url}`);
+  }
+  next();
+});
+
 //middleware
 //important for post data.
 app.use(express.json());
