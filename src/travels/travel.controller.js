@@ -1,23 +1,53 @@
 const Travel = require("./travel.model");
 const sendNotificationEmail = require("../utils/mailer");
 
+// for sending notifications FCM
+const admin = require("../utils/FirebaseAdmin"); // استدعاء التهيئة
+
 const postATravel = async (req, res) => {
   try {
     const newTravel = await Travel({ ...req.body });
     await newTravel.save();
 
+    // إرسال الاستجابة للمستخدم أولاً
     res.status(200).send({
       message: "Travel posted successfully",
       travel: newTravel,
     });
 
-    // إرسال الإشعار بالإيميل
+    // for sending notifications FCM
+    // إعداد رسالة الإشعار
+    if (newTravel.withNotification === true) {
+      const message = {
+        notification: {
+          title: "تمت إضافة عرض جديد",
+          body: `${newTravel.agencyName} - ${newTravel.destination} - BD ${newTravel.price}`,
+        },
+        topic: "allUsers", // يمكن تغييرها إلى token واحد إن أردت
+        android: {
+          notification: {
+            sound: "default",
+          },
+        },
+        apns: {
+          payload: {
+            aps: {
+              sound: "default",
+            },
+          },
+        },
+      };
+
+      // إرسال الإشعار عبر FCM
+      admin.messaging().send(message);
+    }
+    // إرسال إشعار عبر البريد الإلكتروني
     sendNotificationEmail(
       "تمت إضافة رحلة جديدة",
       `AgencyName: ${newTravel.agencyName}\nDestination: ${newTravel.destination}\nPostDate: ${newTravel.postDate}\nImage: ${newTravel.image}\nDates: ${newTravel.dates}\nExpireDate: ${newTravel.expireDate}`
     );
   } catch (error) {
-    console.error("Error creating travel", error);
+    console.error("Error creating travel:", error);
     res.status(500).send({ message: "Failed to create travel" });
   }
 };
@@ -58,6 +88,33 @@ const updateTravel = async (req, res) => {
     res
       .status(200)
       .send({ message: "travel updated successfully", travel: updatedTravel });
+
+    // for sending notifications FCM
+    // إعداد رسالة الإشعار
+    if (updatedTravel.withNotification === true) {
+      const message = {
+        notification: {
+          title: "تمت إضافة عرض جديد",
+          body: `${updatedTravel.agencyName} - ${updatedTravel.destination} - BD ${updatedTravel.price}`,
+        },
+        topic: "allUsers", // يمكن تغييرها إلى token واحد إن أردت
+        android: {
+          notification: {
+            sound: "default",
+          },
+        },
+        apns: {
+          payload: {
+            aps: {
+              sound: "default",
+            },
+          },
+        },
+      };
+
+      // إرسال الإشعار عبر FCM
+      admin.messaging().send(message);
+    }
   } catch (error) {
     console.error("Error updating a travel", error);
     res.status(500).send({ message: "Failed to update a travel" });

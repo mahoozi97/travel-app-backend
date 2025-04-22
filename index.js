@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors"); //for connect with frontend
 
+const admin = require("./src/utils/FirebaseAdmin")
+
 const mongoose = require("mongoose");
 
 const port = process.env.PORT || 5002;
