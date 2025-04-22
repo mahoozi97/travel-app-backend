@@ -1,12 +1,21 @@
 const Travel = require("./travel.model");
+const sendNotificationEmail = require("../utils/mailer");
 
 const postATravel = async (req, res) => {
   try {
     const newTravel = await Travel({ ...req.body });
     await newTravel.save();
-    res
-      .status(200)
-      .send({ message: "Travel posted successfully", travel: newTravel });
+
+    res.status(200).send({
+      message: "Travel posted successfully",
+      travel: newTravel,
+    });
+
+    // إرسال الإشعار بالإيميل
+    sendNotificationEmail(
+      "تمت إضافة رحلة جديدة",
+      `AgencyName: ${newTravel.agencyName}\nDestination: ${newTravel.destination}\nPostDate: ${newTravel.postDate}\nImage: ${newTravel.image}\nDates: ${newTravel.dates}\nExpireDate: ${newTravel.expireDate}`
+    );
   } catch (error) {
     console.error("Error creating travel", error);
     res.status(500).send({ message: "Failed to create travel" });
@@ -41,7 +50,7 @@ const updateTravel = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedTravel = await Travel.findByIdAndUpdate(id, req.body, {
-      new: true
+      new: true,
     });
     if (!updatedTravel) {
       res.status(404).send({ message: "Travel is not found" });
@@ -65,6 +74,12 @@ const deleteATravel = async (req, res) => {
     res
       .status(200)
       .send({ message: "Travel deleted successfully", travel: deletedTravel });
+
+    // إرسال الإشعار بالإيميل
+    sendNotificationEmail(
+      "تم حذف هذه الرحلة:",
+      `AgencyName: ${deletedTravel.agencyName}\nDestination: ${deletedTravel.destination}\nPostDate: ${deletedTravel.postDate}\nImage: ${deletedTravel.image}\nDates: ${deletedTravel.dates}\nExpireDate: ${deletedTravel.expireDate}`
+    );
   } catch (error) {
     console.error("error deleting a travel", error);
     res.status(500).send({ message: "Failed to delete a travel" });
@@ -76,5 +91,5 @@ module.exports = {
   getAllTravels,
   getSingleTravel,
   updateTravel,
-  deleteATravel
+  deleteATravel,
 };
