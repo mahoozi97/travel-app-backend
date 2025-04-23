@@ -39,14 +39,18 @@ const travelSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    price: {
-      type: String,
-      required: true,
-    },
     withNotification: {
       type: Boolean,
       required: true,
       default: false,
+    },
+    alertTitle: {
+      type: String,
+      required: false,
+    },
+    alertMessage: {
+      type: String,
+      required: false,
     },
     createdAt: {
       type: Date,

@@ -20,8 +20,8 @@ const postATravel = async (req, res) => {
     if (newTravel.withNotification === true) {
       const message = {
         notification: {
-          title: "تمت إضافة عرض جديد",
-          body: `${newTravel.agencyName} - ${newTravel.destination} - BD ${newTravel.price}`,
+          title: `${newTravel.alertTitle}`,
+          body: `${newTravel.alertMessage}`,
         },
         topic: "allUsers", // يمكن تغييرها إلى token واحد إن أردت
         android: {
@@ -94,8 +94,8 @@ const updateTravel = async (req, res) => {
     if (updatedTravel.withNotification === true) {
       const message = {
         notification: {
-          title: "تمت إضافة عرض جديد",
-          body: `${updatedTravel.agencyName} - ${updatedTravel.destination} - BD ${updatedTravel.price}`,
+          title: `${updatedTravel.alertTitle}`,
+          body: `${updatedTravel.alertMessage}`,
         },
         topic: "allUsers", // يمكن تغييرها إلى token واحد إن أردت
         android: {
@@ -150,3 +150,13 @@ module.exports = {
   updateTravel,
   deleteATravel,
 };
+
+
+// Add new field to all documents through postATravel function.
+// await Travel.updateMany(
+//   { price: { $exists: false } }, // أو { price: null } لو الحقل موجود ولكن فارغ
+//   { $set: { price: "غير محدد" } }
+// );
+
+// Remove field from all documents through postATravel function.
+// await Travel.updateMany({}, { $unset: { price: "" } });
