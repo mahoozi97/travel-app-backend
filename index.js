@@ -9,14 +9,6 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 5002;
 require("dotenv").config();
 
-// // Force HTTPS (only in production)
-// app.use((req, res, next) => {
-//   if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https') {
-//     return res.redirect(`https://${req.headers.host}${req.url}`);
-//   }
-//   next();
-// });
-
 //middleware
 //important for post data.
 app.use(express.json());
@@ -40,21 +32,6 @@ async function main() {
     res.send("Travel server is running");
   });
 }
-
-// Middleware to force HTTPS in production, except for .well-known path
-app.use((req, res, next) => {
-  // Exclude .well-known path from HTTPS redirection
-  if (process.env.NODE_ENV === 'production' && req.headers['x-forwarded-proto'] !== 'https' && !req.url.startsWith('/.well-known')) {
-    return res.redirect(`https://${req.headers.host}${req.url}`);
-  }
-  next();
-})
-
-// Serve AASA file with correct headers for Apple credentials
-app.get('/.well-known/apple-app-site-association', (req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
-});
 
 main()
   .then(() => console.log("Mongodb connected successfully"))
