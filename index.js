@@ -41,26 +41,6 @@ async function main() {
   });
 }
 
-// ✅ Correct: Explicit GET handler
-app.get('/.well-known/apple-app-site-association', (req, res) => {
-  res.type('application/json'); // Sets Content-Type
-  res.sendFile(path.join(__dirname, 'public/.well-known/apple-app-site-association'));
-});
-
-// ❌ Avoid: Using `app.use()` or `app.all()` for this route
-
-// // Serve AASA file with correct headers // for apple credentials
-// app.get('/.well-known/apple-app-site-association', (req, res) => {
-//   res.set('Content-Type', 'application/json');
-//   res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
-// });
-
-// // For root path (optional, but some apps use this) // for apple credentials
-// app.get('/apple-app-site-association', (req, res) => {
-//   res.set('Content-Type', 'application/json');
-//   res.redirect(301, '/.well-known/apple-app-site-association'); // Redirect to .well-known
-// });
-
 main()
   .then(() => console.log("Mongodb connected successfully"))
   .catch((err) => console.log(err));
