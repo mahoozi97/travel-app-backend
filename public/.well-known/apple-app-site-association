@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "E233BT9X9M.com.AliHassan.P2Trip",
-        "paths": ["/path/*", "/otherpath/*"]
+        "paths": [ "/path/*/filename" ]
       }
     ]
   }
