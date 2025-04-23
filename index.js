@@ -41,11 +41,13 @@ async function main() {
   });
 }
 
-// Serve static files from the public directory // for apple credentials
+// ✅ Correct: Explicit GET handler
 app.get('/.well-known/apple-app-site-association', (req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
+  res.type('application/json'); // Sets Content-Type
+  res.sendFile(path.join(__dirname, 'public/.well-known/apple-app-site-association'));
 });
+
+// ❌ Avoid: Using `app.use()` or `app.all()` for this route
 
 // // Serve AASA file with correct headers // for apple credentials
 // app.get('/.well-known/apple-app-site-association', (req, res) => {
