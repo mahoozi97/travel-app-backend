@@ -41,17 +41,23 @@ async function main() {
   });
 }
 
-// Serve AASA file with correct headers // for apple credentials
+// Serve static files from the public directory // for apple credentials
 app.get('/.well-known/apple-app-site-association', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
 });
 
-// For root path (optional, but some apps use this) // for apple credentials
-app.get('/apple-app-site-association', (req, res) => {
-  res.set('Content-Type', 'application/json');
-  res.redirect(301, '/.well-known/apple-app-site-association'); // Redirect to .well-known
-});
+// // Serve AASA file with correct headers // for apple credentials
+// app.get('/.well-known/apple-app-site-association', (req, res) => {
+//   res.set('Content-Type', 'application/json');
+//   res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
+// });
+
+// // For root path (optional, but some apps use this) // for apple credentials
+// app.get('/apple-app-site-association', (req, res) => {
+//   res.set('Content-Type', 'application/json');
+//   res.redirect(301, '/.well-known/apple-app-site-association'); // Redirect to .well-known
+// });
 
 main()
   .then(() => console.log("Mongodb connected successfully"))
