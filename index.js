@@ -42,7 +42,7 @@ async function main() {
 }
 
 // Serve AASA file with correct headers for Apple credentials
-app.get('/.well-known/apple-app-site-association', (req, res) => {
+app.use('/.well-known/apple-app-site-association', (req, res) => {
   res.set('Content-Type', 'application/json');
   res.sendFile(path.join(__dirname, 'public', '.well-known', 'apple-app-site-association'));
 });
