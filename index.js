@@ -41,6 +41,11 @@ async function main() {
   });
 }
 
+app.get('/apple-app-site-association', (req, res) => {
+  res.set('Content-Type', 'application/json');
+  res.sendFile(path.join(__dirname, 'public/apple-app-site-association'));
+});
+
 main()
   .then(() => console.log("Mongodb connected successfully"))
   .catch((err) => console.log(err));
