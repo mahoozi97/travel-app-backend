@@ -1,10 +1,10 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail", // أو "outlook", "yahoo" حسب بريدك
+  service: "gmail", // email provider
   auth: {
     user: "p2tripmailer@gmail.com",
-    pass: "jqbh oyqb ozxx wfci" // ليس الباسورد العادي!
+    pass: "jqbh oyqb ozxx wfci" // I think app password
   }
 });
 

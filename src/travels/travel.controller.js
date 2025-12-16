@@ -2,28 +2,26 @@ const Travel = require("./travel.model");
 const sendNotificationEmail = require("../utils/mailer");
 
 // for sending notifications FCM
-const admin = require("../utils/FirebaseAdmin"); // استدعاء التهيئة
+const admin = require("../utils/FirebaseAdmin");
 
 const postATravel = async (req, res) => {
   try {
     const newTravel = await Travel({ ...req.body });
     await newTravel.save();
 
-    // إرسال الاستجابة للمستخدم أولاً
     res.status(200).send({
       message: "Travel posted successfully",
       travel: newTravel,
     });
 
     // for sending notifications FCM
-    // إعداد رسالة الإشعار
     if (newTravel.withNotification === true) {
       const message = {
         notification: {
           title: `${newTravel.alertTitle}`,
           body: `${newTravel.alertMessage}`,
         },
-        topic: "allUsers", // يمكن تغييرها إلى token واحد إن أردت
+        topic: "allUsers",
         android: {
           notification: {
             sound: "default",
@@ -38,10 +36,9 @@ const postATravel = async (req, res) => {
         },
       };
 
-      // إرسال الإشعار عبر FCM
       admin.messaging().send(message);
     }
-    // إرسال إشعار عبر البريد الإلكتروني
+    // send to email
     sendNotificationEmail(
       "تمت إضافة رحلة جديدة",
       `AgencyName: ${newTravel.agencyName}\nDestination: ${newTravel.destination}\nPostDate: ${newTravel.postDate}\nImage: ${newTravel.image}\nDates: ${newTravel.dates}\nExpireDate: ${newTravel.expireDate}`
@@ -90,14 +87,13 @@ const updateTravel = async (req, res) => {
       .send({ message: "travel updated successfully", travel: updatedTravel });
 
     // for sending notifications FCM
-    // إعداد رسالة الإشعار
     if (updatedTravel.withNotification === true) {
       const message = {
         notification: {
           title: `${updatedTravel.alertTitle}`,
           body: `${updatedTravel.alertMessage}`,
         },
-        topic: "allUsers", // يمكن تغييرها إلى token واحد إن أردت
+        topic: "allUsers",
         android: {
           notification: {
             sound: "default",
@@ -112,7 +108,6 @@ const updateTravel = async (req, res) => {
         },
       };
 
-      // إرسال الإشعار عبر FCM
       admin.messaging().send(message);
     }
   } catch (error) {
@@ -132,7 +127,7 @@ const deleteATravel = async (req, res) => {
       .status(200)
       .send({ message: "Travel deleted successfully", travel: deletedTravel });
 
-    // إرسال الإشعار بالإيميل
+    // Email notification
     sendNotificationEmail(
       "تم حذف هذه الرحلة:",
       `AgencyName: ${deletedTravel.agencyName}\nDestination: ${deletedTravel.destination}\nPostDate: ${deletedTravel.postDate}\nImage: ${deletedTravel.image}\nDates: ${deletedTravel.dates}\nExpireDate: ${deletedTravel.expireDate}`
