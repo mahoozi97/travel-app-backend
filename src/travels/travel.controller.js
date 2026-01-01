@@ -145,13 +145,3 @@ module.exports = {
   updateTravel,
   deleteATravel,
 };
-
-
-// Add new field to all documents through postATravel function.
-// await Travel.updateMany(
-//   { price: { $exists: false } }, // أو { price: null } لو الحقل موجود ولكن فارغ
-//   { $set: { price: "غير محدد" } }
-// );
-
-// Remove field from all documents through postATravel function.
-// await Travel.updateMany({}, { $unset: { price: "" } });

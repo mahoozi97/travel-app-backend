@@ -2,20 +2,23 @@ const express = require("express");
 const app = express();
 const cors = require("cors"); //for connect with frontend
 
-const admin = require("./src/utils/FirebaseAdmin")
+const admin = require("./src/utils/FirebaseAdmin");
 
 const mongoose = require("mongoose");
 
-const port = process.env.PORT || 5002;
 require("dotenv").config();
+const port = process.env.PORT || 5002;
+
+const localUrl = process.env.LOCAL_URL;
+const deployedUrl = process.env.DEPLOYED_URL;
 
 //middleware
 //important for post data.
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://travel-app-frontend-nine.vercel.app"],
-    credentials: true
+    origin: [localUrl, deployedUrl],
+    credentials: true,
   })
 );
 
@@ -23,7 +26,7 @@ app.use(
 const travelRoutes = require("./src/travels/travel.route");
 app.use("/api/travels", travelRoutes);
 
-const userRoutes = require("./src/users/user.route")
+const userRoutes = require("./src/users/user.route");
 app.use("/api/auth", userRoutes);
 
 async function main() {

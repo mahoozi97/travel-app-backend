@@ -65,11 +65,3 @@ const travelSchema = new mongoose.Schema(
 const Travel = mongoose.model("Travel", travelSchema);
 
 module.exports = Travel;
-
-// agencyName
-// image
-// destination
-// dates
-// instagram
-// whatsApp
-// postDate
