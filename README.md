@@ -12,10 +12,10 @@ It handles **travel ads, users**, providing a clean, secure, and well-documented
   - **Admins** (login only with JWT authentication)
   - **Travel Ads** (create, read, update, delete)
 - **Authentication & Authorization** JWT-protected admin routes
+- **Email notifications** Server owner receives an email whenever a new ad is created
 - **Input validation** and **error handling**
 - **Aggregation queries** for filtering and sorting travel ads
 - **Clean and maintainable code** following backend best practices
-- **API Documentation** available via Postman
 
 ---
 
@@ -24,6 +24,6 @@ It handles **travel ads, users**, providing a clean, secure, and well-documented
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB, Mongoose
 - **Authentication:** JWT (JSON Web Tokens)
-- **Documentation:** Postman Collection
+- **Email Notifications:** Nodemailer
 
 ---
