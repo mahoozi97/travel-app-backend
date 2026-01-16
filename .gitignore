@@ -23,4 +23,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-p2trip-af0f3-firebase-adminsdk-fbsvc-d5442e0a15.json
+src/utils/p2trip-af0f3-firebase-adminsdk-fbsvc-d5442e0a15.json
+rm 'src/utils/p2trip-af0f3-firebase-adminsdk-fbsvc-d5442e0a15.json
