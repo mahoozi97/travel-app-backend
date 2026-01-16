@@ -3,15 +3,15 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   service: "gmail", // email provider
   auth: {
-    user: "p2tripmailer@gmail.com",
-    pass: "jqbh oyqb ozxx wfci" // I think app password
+    user: process.env.EMAIL,
+    pass: process.env.PASS
   }
 });
 
 const sendNotificationEmail = (subject, message) => {
   const mailOptions = {
-    from: "p2tripmailer@gmail.com",
-    to: "p2tripmailer@gmail.com",
+    from: process.env.EMAIL,
+    to: process.env.EMAIL,
     subject: subject,
     text: message
   };
